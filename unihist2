@@ -29,6 +29,8 @@ def main():
             elif cat == 'Cc':
                 # TODO: elaborate
                 name = 'control character'
+            elif cat == 'Cs':
+                name = 'lone surrogate'
         glyph = ch
         if cat[0] == 'C':
             glyph = ''
