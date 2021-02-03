@@ -34,7 +34,7 @@ def main():
             glyph = ''
         elif cat[0] == 'M':
             glyph = '\N{DOTTED CIRCLE}' + ch
-        print(f'{count}\t{glyph}\tU+{pt:04d}\t{name or ""}')
+        print(f'{count}\t{glyph}\tU+{pt:04X}\t{name or ""}')
 
 if __name__ == '__main__':
     main()
