@@ -3,6 +3,7 @@
 # Copyright © 2021 Jakub Wilk <jwilk@jwilk.net>
 # SPDX-License-Identifier: MIT
 
+import argparse
 import collections
 import sys
 import unicodedata
@@ -11,14 +12,27 @@ f'{0}'  # Python >= 3.6 is required
 
 chunk_size = 64 * 1024
 
-def main():
-    data = collections.Counter()
+def read_file(data, file):
     while True:
-        chunk = sys.stdin.read(chunk_size)
+        chunk = file.read(chunk_size)
         if not chunk:
             break
         for ch in chunk:
             data[ch] += 1
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument('paths', metavar='FILE', nargs='*',
+        help='file to analyze (default: stdin)'
+    )
+    options = ap.parse_args()
+    data = collections.Counter()
+    for path in options.paths or ['-']:
+        if path == '-':
+            read_file(data, sys.stdin)
+        else:
+            with open(path, 'rt') as file:
+                read_file(data, file)
     for ch, count in sorted(data.items()):
         pt = ord(ch)
         cat = unicodedata.category(ch)
