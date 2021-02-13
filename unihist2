@@ -5,6 +5,7 @@
 
 import argparse
 import collections
+import signal
 import sys
 import unicodedata
 
@@ -26,6 +27,7 @@ def main():
         help='file to analyze (default: stdin)'
     )
     options = ap.parse_args()
+    signal.signal(signal.SIGPIPE, signal.SIG_DFL)
     data = collections.Counter()
     for path in options.paths or ['-']:
         if path == '-':
