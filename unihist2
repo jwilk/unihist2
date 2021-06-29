@@ -119,8 +119,7 @@ def get_char_name(ch):
             except KeyError:
                 assert False, f'{name} != U+{pt:04X}'
             return name
-        else:
-            return 'control character'
+        return 'control character'
     elif cat == 'Cs':
         return 'lone surrogate'
     elif cat == 'Co':
