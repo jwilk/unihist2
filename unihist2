@@ -141,6 +141,16 @@ def format_names(s):
         names = ''
     return names
 
+def format_glyph(s):
+    if not s:
+        return ''
+    cat = unicodedata.category(s[0])
+    if cat[0] == 'C':
+        return ''
+    if cat[0] == 'M':
+        return '\N{DOTTED CIRCLE}' + s
+    return s
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('-G', dest='egc', action='store_true',
@@ -160,16 +170,9 @@ def main():
             with open(path, 'rt') as file:
                 read_file(data, file)
     for clt, count in sorted(data.items()):
-        glyph = clt
+        glyph = format_glyph(clt)
         display_pts = format_pts(clt)
         display_names = format_names(clt)
-        for i, ch in enumerate(clt):
-            pt = ord(ch)
-            cat = unicodedata.category(ch)
-            if i == 0 and cat[0] == 'C':
-                glyph = ''
-            elif i == 0 and cat[0] == 'M':
-                glyph = '\N{DOTTED CIRCLE}' + clt
         print(f'{count}\t{glyph}\t{display_pts}\t{display_names}')
 
 if __name__ == '__main__':
