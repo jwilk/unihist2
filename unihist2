@@ -104,7 +104,7 @@ _cc_names = {
 }
 
 def get_char_name(ch):
-    name = unicodedata.name(ch, '')
+    name = unicodedata.name(ch, None)
     cat = unicodedata.category(ch)
     if name:
         return name
@@ -125,7 +125,6 @@ def get_char_name(ch):
         return 'lone surrogate'
     elif cat == 'Co':
         return 'private-use character'
-    return ''
 
 def format_pts(s):
     return ' '.join(
