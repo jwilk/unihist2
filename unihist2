@@ -126,6 +126,11 @@ def get_char_name(ch, cat):
         return 'private-use character'
     return ''
 
+def format_pts(s):
+    return ' '.join(
+        f'U+{ord(ch):04X}' for ch in s
+    )
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('-G', dest='egc', action='store_true',
@@ -146,7 +151,7 @@ def main():
                 read_file(data, file)
     for clt, count in sorted(data.items()):
         glyph = clt
-        display_pts = []
+        display_pts = format_pts(clt)
         display_names = []
         for i, ch in enumerate(clt):
             pt = ord(ch)
@@ -154,13 +159,11 @@ def main():
             name = get_char_name(ch, cat)
             if not name and len(clt) > 1:
                 name = '?'
-            display_pts += [f'U+{pt:04X}']
             display_names += [name]
             if i == 0 and cat[0] == 'C':
                 glyph = ''
             elif i == 0 and cat[0] == 'M':
                 glyph = '\N{DOTTED CIRCLE}' + clt
-        display_pts = ' '.join(display_pts)
         display_names = ' + '.join(display_names)
         print(f'{count}\t{glyph}\t{display_pts}\t{display_names}')
 
