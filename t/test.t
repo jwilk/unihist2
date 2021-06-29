@@ -9,15 +9,25 @@ here="${0%/*}"
 base="$here/.."
 prog="${UNIHIST2_TEST_TARGET:-"$base/unihist2"}"
 declare -i n
-n=$(ls -q "$here"/*.txt | wc -l)
+n=$(ls -q "$here"/*.exp | wc -l)
 echo "1..$n"
 n=0
-for file in "$here"/*.txt
+for file in "$here"/*.exp
 do
     n+=1
     check=${file##*/}
-    out=$("$prog" < "$file")
-    diff=$(diff -u "${file%.txt}.exp" <(cat <<< "$out")) || [ $? -eq 1 ]
+    case $file in
+        *.g.exp)
+            txt=${file%.g.exp}.txt
+            options=(-G)
+            ;;
+        *)
+            txt=${file%.exp}.txt
+            options=()
+            ;;
+    esac
+    out=$("$prog" "${options[@]}" < "$txt")
+    diff=$(diff -u "$file" <(cat <<< "$out")) || [ $? -eq 1 ]
     if [ -z "$diff" ]
     then
         echo "ok $n $check"
