@@ -36,6 +36,19 @@ def read_file_egc(data, file):
     if tail:
         data[tail] += 1
 
+def get_char_name(ch, cat):
+    name = unicodedata.name(ch, '')
+    if name:
+        return name
+    if cat == 'Cn':
+        return 'non-character'
+    elif cat == 'Cc':
+        # TODO: elaborate
+        return 'control character'
+    elif cat == 'Cs':
+        return 'lone surrogate'
+    return ''
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('-G', dest='egc', action='store_true',
@@ -61,15 +74,7 @@ def main():
         for i, ch in enumerate(clt):
             pt = ord(ch)
             cat = unicodedata.category(ch)
-            name = unicodedata.name(ch, '')
-            if not name:
-                if cat == 'Cn':
-                    name = 'non-character'
-                elif cat == 'Cc':
-                    # TODO: elaborate
-                    name = 'control character'
-                elif cat == 'Cs':
-                    name = 'lone surrogate'
+            name = get_char_name(ch, cat)
             if not name and len(clt) > 1:
                 name = '?'
             display_pts += [f'U+{pt:04X}']
