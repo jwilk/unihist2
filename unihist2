@@ -171,9 +171,9 @@ def main():
                 read_file(data, file)
     for clt, count in sorted(data.items()):
         glyph = format_glyph(clt)
-        display_pts = format_pts(clt)
-        display_names = format_names(clt)
-        print(f'{count}\t{glyph}\t{display_pts}\t{display_names}')
+        pts = format_pts(clt)
+        names = format_names(clt)
+        print(f'{count}\t{glyph}\t{pts}\t{names}')
 
 if __name__ == '__main__':
     main()
