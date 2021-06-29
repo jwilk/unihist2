@@ -137,7 +137,7 @@ def format_names(s):
         get_char_name(ch) or '?'
         for ch in s
     )
-    if len(s) == 1 and names == '?':
+    if names == '?':
         names = ''
     return names
 
