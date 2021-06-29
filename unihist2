@@ -14,7 +14,7 @@ import unicodedata
 
 chunk_size = 64 * 1024
 
-def read_file(data, file):
+def read_file_basic(data, file):
     while True:
         chunk = file.read(chunk_size)
         if not chunk:
@@ -22,38 +22,65 @@ def read_file(data, file):
         for ch in chunk:
             data[ch] += 1
 
+def read_file_egc(data, file):
+    import regex
+    tail = ''
+    while True:
+        chunk = file.read(chunk_size)
+        chars = regex.findall(r'\X', tail + chunk)
+        tail = chars.pop() if chars else ''
+        for clt in chars:
+            data[clt] += 1
+        if not chunk:
+            break
+    if tail:
+        data[tail] += 1
+
 def main():
     ap = argparse.ArgumentParser()
+    ap.add_argument('-G', dest='egc', action='store_true',
+        help='use Extended Grapheme Clusters'
+    )
     ap.add_argument('paths', metavar='FILE', nargs='*',
         help='file to analyze (default: stdin)'
     )
     options = ap.parse_args()
     signal.signal(signal.SIGPIPE, signal.SIG_DFL)
     data = collections.Counter()
+    read_file = [read_file_basic, read_file_egc][options.egc]
     for path in options.paths or ['-']:
         if path == '-':
             read_file(data, sys.stdin)
         else:
             with open(path, 'rt') as file:
                 read_file(data, file)
-    for ch, count in sorted(data.items()):
-        pt = ord(ch)
-        cat = unicodedata.category(ch)
-        name = unicodedata.name(ch, '')
-        if not name:
-            if cat == 'Cn':
-                name = 'non-character'
-            elif cat == 'Cc':
-                # TODO: elaborate
-                name = 'control character'
-            elif cat == 'Cs':
-                name = 'lone surrogate'
-        glyph = ch
-        if cat[0] == 'C':
-            glyph = ''
-        elif cat[0] == 'M':
-            glyph = '\N{DOTTED CIRCLE}' + ch
-        print(f'{count}\t{glyph}\tU+{pt:04X}\t{name or ""}')
+    for clt, count in sorted(data.items()):
+        glyph = clt
+        display_pts = []
+        display_names = []
+        for i, ch in enumerate(clt):
+            pt = ord(ch)
+            cat = unicodedata.category(ch)
+            name = unicodedata.name(ch, '')
+            if not name:
+                if cat == 'Cn':
+                    name = 'non-character'
+                elif cat == 'Cc':
+                    # TODO: elaborate
+                    name = 'control character'
+                elif cat == 'Cs':
+                    name = 'lone surrogate'
+            if not name and len(clt) > 1:
+                name = '?'
+            display_pts += [f'U+{pt:04X}']
+            display_names += [name]
+            if i == 0 and cat[0] == 'C':
+                glyph = ''
+            elif i == 0 and cat[0] == 'M':
+                glyph = '\N{DOTTED CIRCLE}' + clt
+        display_pts = ' '.join(display_pts)
+        display_names = ' + '.join(display_names)
+        print(f'{count}\t{glyph}\t{display_pts}\t{display_names}')
 
 if __name__ == '__main__':
     main()
