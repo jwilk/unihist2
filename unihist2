@@ -122,6 +122,8 @@ def get_char_name(ch, cat):
             return 'control character'
     elif cat == 'Cs':
         return 'lone surrogate'
+    elif cat == 'Co':
+        return 'private-use character'
     return ''
 
 def main():
