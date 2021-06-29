@@ -103,8 +103,9 @@ _cc_names = {
     '\u009F': 'APPLICATION PROGRAM COMMAND',
 }
 
-def get_char_name(ch, cat):
+def get_char_name(ch):
     name = unicodedata.name(ch, '')
+    cat = unicodedata.category(ch)
     if name:
         return name
     if cat == 'Cn':
@@ -131,6 +132,15 @@ def format_pts(s):
         f'U+{ord(ch):04X}' for ch in s
     )
 
+def format_names(s):
+    names = ' + '.join(
+        get_char_name(ch) or '?'
+        for ch in s
+    )
+    if len(s) == 1 and names == '?':
+        names = ''
+    return names
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('-G', dest='egc', action='store_true',
@@ -152,19 +162,14 @@ def main():
     for clt, count in sorted(data.items()):
         glyph = clt
         display_pts = format_pts(clt)
-        display_names = []
+        display_names = format_names(clt)
         for i, ch in enumerate(clt):
             pt = ord(ch)
             cat = unicodedata.category(ch)
-            name = get_char_name(ch, cat)
-            if not name and len(clt) > 1:
-                name = '?'
-            display_names += [name]
             if i == 0 and cat[0] == 'C':
                 glyph = ''
             elif i == 0 and cat[0] == 'M':
                 glyph = '\N{DOTTED CIRCLE}' + clt
-        display_names = ' + '.join(display_names)
         print(f'{count}\t{glyph}\t{display_pts}\t{display_names}')
 
 if __name__ == '__main__':
