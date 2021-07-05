@@ -113,7 +113,7 @@ def get_char_name(ch):
         return name
     if cat == 'Cn':
         return 'non-character'
-    elif cat == 'Cc':
+    if cat == 'Cc':
         name = _cc_names.get(ch)
         if name:
             pt = ord(ch)
@@ -123,10 +123,11 @@ def get_char_name(ch):
                 assert False, f'{name} != U+{pt:04X}'
             return name
         return 'control character'
-    elif cat == 'Cs':
+    if cat == 'Cs':
         return 'lone surrogate'
-    elif cat == 'Co':
+    if cat == 'Co':
         return 'private-use character'
+    return None
 
 def format_pts(s):
     return ' '.join(
