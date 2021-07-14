@@ -110,8 +110,6 @@ def get_char_name(ch):
     cat = unicodedata.category(ch)
     if name:
         return name
-    if cat == 'Cn':
-        return 'non-character'
     if cat == 'Cc':
         name = _cc_names.get(ch)
         if name:
@@ -122,10 +120,20 @@ def get_char_name(ch):
                 assert False, f'{name} != U+{pt:04X}'
             return name
         return 'control character'
-    if cat == 'Cs':
-        return 'lone surrogate'
-    if cat == 'Co':
-        return 'private-use character'
+    # use code point label as fallback
+    # (see The Unicode Standard version 13.0, §4.8)
+    label_prefix = dict(
+        Cc='control',
+        Cn='reserved',
+        Co='private-use',
+        Cs='surrogate',
+    ).get(cat)
+    pt = ord(ch)
+    if pt & 0xFFFF >= 0xFFFE or 0xFDD0 <= pt < 0xFDF0:
+        assert label_prefix == 'reserved'
+        label_prefix = 'noncharacter'
+    if label_prefix:
+        return f'<{label_prefix}-{pt:04X}>'
     return None
 
 def format_pts(s):
