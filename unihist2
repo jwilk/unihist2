@@ -155,7 +155,9 @@ def format_glyph(s):
     if not s:
         return ''
     cat = unicodedata.category(s[0])
-    if cat[0] == 'C':
+    if cat[0] in 'C':
+        return ''
+    if cat in {'Zl', 'Zp'}:
         return ''
     if cat[0] == 'M':
         return '\N{DOTTED CIRCLE}' + s
