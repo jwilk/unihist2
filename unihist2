@@ -6,6 +6,7 @@
 
 import argparse
 import collections
+import io
 import signal
 import sys
 import unicodedata
@@ -172,11 +173,22 @@ def main():
     signal.signal(signal.SIGPIPE, signal.SIG_DFL)
     data = collections.Counter()
     read_file = [read_file_basic, read_file_egc][options.egc]
+    enc_errors = sys.stdin.errors
+    if enc_errors == 'strict':
+        enc_errors = 'surrogatepass'
+        if sys.version_info >= (3, 7):
+            sys.stdin.reconfigure(errors=enc_errors)
+        else:
+            sys.stdin = io.TextIOWrapper(
+                sys.stdin.buffer,
+                encoding=sys.stdin.encoding,
+                errors=enc_errors,
+            )
     for path in options.paths or ['-']:
         if path == '-':
             read_file(data, sys.stdin)
         else:
-            with open(path, 'rt') as file:
+            with open(path, 'rt', errors=enc_errors) as file:
                 read_file(data, file)
     for clt, count in sorted(data.items()):
         glyph = format_glyph(clt)
