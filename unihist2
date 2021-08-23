@@ -165,6 +165,9 @@ def format_glyph(s):
 
 def main():
     ap = argparse.ArgumentParser()
+    if sys.version_info < (3, 10):
+        # https://bugs.python.org/issue9694
+        ap._optionals.title = 'options'
     ap.add_argument('-G', dest='egc', action='store_true',
         help='use Extended Grapheme Clusters'
     )

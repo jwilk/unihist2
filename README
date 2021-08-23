@@ -9,7 +9,7 @@ Overview
    positional arguments:
      FILE        file to analyze (default: stdin)
 
-   optional arguments:
+   options:
      -h, --help  show this help message and exit
      -G          use Extended Grapheme Clusters
 
