@@ -179,21 +179,22 @@ def main():
     data = collections.Counter()
     read_file = [read_file_basic, read_file_egc][options.egc]
     enc_errors = sys.stdin.errors
+    open_kw = dict(
+        encoding=sys.stdin.encoding,
+        errors=enc_errors,
+        newline=''
+    )
     if enc_errors == 'strict':
-        enc_errors = 'surrogatepass'
+        open_kw.update(errors='surrogatepass')
         if sys.version_info >= (3, 7):
-            sys.stdin.reconfigure(errors=enc_errors)
+            sys.stdin.reconfigure(**open_kw)
         else:
-            sys.stdin = io.TextIOWrapper(
-                sys.stdin.buffer,
-                encoding=sys.stdin.encoding,
-                errors=enc_errors,
-            )
+            sys.stdin = io.TextIOWrapper(sys.stdin.buffer, **open_kw)
     for path in options.paths or ['-']:
         if path == '-':
             read_file(data, sys.stdin)
         else:
-            with open(path, 'rt', errors=enc_errors) as file:
+            with open(path, 'rt', **open_kw) as file:
                 read_file(data, file)
     for clt, count in sorted(data.items()):
         glyph = format_glyph(clt)
