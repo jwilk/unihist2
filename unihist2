@@ -184,7 +184,7 @@ def main():
         errors=enc_errors,
         newline=''
     )
-    if enc_errors == 'strict':
+    if enc_errors in ('strict', 'surrogateescape'):
         open_kw.update(errors='surrogatepass')
         if sys.version_info >= (3, 7):
             sys.stdin.reconfigure(**open_kw)
