@@ -25,7 +25,7 @@ def read_file_basic(data, file):
 
 def read_file_egc(data, file):
     # Python stdlib doesn't support grapheme clustering yet:
-    # https://bugs.python.org/issue30717
+    # https://github.com/python/cpython/issues/74902
     # Use third-party library in the mean time.
     import regex
     tail = ''
