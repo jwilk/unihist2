@@ -14,7 +14,7 @@ Overview
      -G          use Extended Grapheme Clusters
 
    $ unihist2 /path/to/unihist2/LICENSE
-   19              U+000A  control character
+   19              U+000A  LINE FEED
    152             U+0020  SPACE
    1       (       U+0028  LEFT PARENTHESIS
    1       )       U+0029  RIGHT PARENTHESIS
