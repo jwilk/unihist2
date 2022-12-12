@@ -6,12 +6,11 @@
 
 import argparse
 import collections
-import io
 import signal
 import sys
 import unicodedata
 
-int(0_0)  # Python >= 3.6 is required
+async def _(): f'{await "# Python >= 3.7 is required #"}'
 
 chunk_size = 64 * 1024
 
@@ -194,10 +193,7 @@ def main():
     )
     if enc_errors in {'strict', 'surrogateescape'}:
         open_kw.update(errors='surrogatepass')
-        if sys.version_info >= (3, 7):
-            sys.stdin.reconfigure(**open_kw)
-        else:
-            sys.stdin = io.TextIOWrapper(sys.stdin.buffer, **open_kw)
+        sys.stdin.reconfigure(**open_kw)
     for path in options.paths or ['-']:
         if path == '-':
             read_file(data, sys.stdin)

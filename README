@@ -29,7 +29,7 @@ Overview
 Prerequisites
 =============
 
-* Python ≥ 3.6
+* Python ≥ 3.7
 
 * regex_ (for the -G option)
 
