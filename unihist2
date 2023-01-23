@@ -16,8 +16,12 @@ type(0_0)  # Python >= 3.6 is required
 chunk_size = 64 * 1024
 
 def read_file_basic(data, file):
+    if file.isatty():
+        read = file.readline
+    else:
+        read = file.read
     while True:
-        chunk = file.read(chunk_size)
+        chunk = read(chunk_size)
         if not chunk:
             break
         for ch in chunk:
@@ -29,8 +33,12 @@ def read_file_egc(data, file):
     # Use third-party library in the mean time.
     import regex
     tail = ''
+    if file.isatty():
+        read = file.readline
+    else:
+        read = file.read
     while True:
-        chunk = file.read(chunk_size)
+        chunk = read(chunk_size)
         chars = regex.findall(r'\X', tail + chunk)
         tail = chars.pop() if chars else ''
         for clt in chars:
