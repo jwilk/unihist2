@@ -8,7 +8,6 @@ import os
 import pty
 import subprocess
 import signal
-import sys
 
 here = os.path.dirname(__file__)
 base = f'{here}/..'
