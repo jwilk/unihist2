@@ -10,7 +10,7 @@ import subprocess
 import signal
 import sys
 
-here = sys.path[0]
+here = os.path.dirname(__file__)
 base = f'{here}/..'
 prog = os.getenv('UNIHIST2_TEST_TARGET') or f'{base}/unihist2'
 
