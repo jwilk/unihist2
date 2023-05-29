@@ -11,7 +11,7 @@ import signal
 import sys
 import unicodedata
 
-type(0_0)  # Python >= 3.6 is required
+int(0_0)  # Python >= 3.6 is required
 
 chunk_size = 64 * 1024
 
