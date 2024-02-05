@@ -213,7 +213,7 @@ def main():
         glyph = format_glyph(clt)
         pts = format_pts(clt)
         names = format_names(clt)
-        print(f'{count}\t{glyph}\t{pts}\t{names}')
+        print(count, glyph, pts, names, sep='\t')
 
 if __name__ == '__main__':
     main()
