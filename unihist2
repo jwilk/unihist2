@@ -162,7 +162,7 @@ def format_glyph(s):
     if not s:
         return ''
     cat = unicodedata.category(s[0])
-    if cat[0] in 'C':
+    if cat[0] == 'C':
         return ''
     if cat in {'Zl', 'Zp'}:
         return ''
