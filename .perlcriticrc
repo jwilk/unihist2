@@ -19,6 +19,9 @@ exclude_functions = print say
 [-RegularExpressions::RequireLineBoundaryMatching]
 # no, thanks
 
+[-ValuesAndExpressions::ProhibitEscapedCharacters]
+# no, thanks
+
 [-ValuesAndExpressions::ProhibitNoisyQuotes]
 # no, thanks
 
