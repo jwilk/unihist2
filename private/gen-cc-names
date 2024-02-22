@@ -21,8 +21,20 @@ while (@invlist) {
     $max--;
     for my $n ($min..$max) {
         my $info = Unicode::UCD::charinfo($n);
-        $_ = $info->{unicode10}
-            or next;
+        $_ = $info->{unicode10};
+        if (not $_) {
+            state %fallback = (
+                "\x80" => 'PADDING CHARACTER',
+                "\x81" => 'HIGH OCTET PRESET',
+                "\x84" => 'INDEX',
+                "\x99" => 'SINGLE GRAPHIC CHARACTER INTRODUCER',
+            );
+            $_ = $fallback{chr $n};
+        }
+        if (not $_) {
+            my $msg = sprintf 'no name for U+%04X', $n;
+            die $msg;
+        };
         s/ [(].*//;
         if ($_ eq 'BELL') {
             # U+0007 was BELL in Unicode 1.0,
