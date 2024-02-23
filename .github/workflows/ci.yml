@@ -53,27 +53,30 @@ jobs:
       run: |
         prove -v
   nonpython:
-    runs-on: ${{matrix.os}}
     strategy:
       matrix:
         os:
-        - ubuntu-20.04
-        - ubuntu-22.04
+        - debian:12  # bookworm (Unicode 14)
+        - debian:unstable # (Unicode >= 15)
+    runs-on: ubuntu-latest
+    container: ${{matrix.os}}
     steps:
     - uses: actions/checkout@v4
     - name: set up APT
       run: |
-        printf 'Apt::Install-Recommends "false";\n' | sudo tee -a /etc/apt/apt.conf
-        sudo apt-get update
-    - name: install perlcritic
+        printf 'Apt::Install-Recommends "false";\n' | tee -a /etc/apt/apt.conf
+        apt-get update
+    - name: install deps
       run: |
-        sudo apt-get install libperl-critic-perl
+        apt-get install -y libperl-critic-perl
     - name: run perlcritic
       run: |
         perlcritic $(grep -rl '/env perl$' .)
     - name: update generated code
       run: |
+        cp unihist2 unihist2.orig
         private/update-gen-code
-        git diff --exit-code
+        diff -u unihist2.orig unihist2
+        rm unihist2.orig
 
 # vim:ts=2 sts=2 sw=2 et
