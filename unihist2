@@ -130,7 +130,6 @@ def get_char_name(ch):
             except KeyError:
                 assert False, f'{name} != U+{pt:04X}'
             return name
-        return 'control character'
     # use code point label as fallback
     # (see The Unicode Standard version 15.0, §4.8)
     label_prefix = dict(
