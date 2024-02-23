@@ -22,6 +22,9 @@ exclude_functions = print say
 [-ValuesAndExpressions::ProhibitEscapedCharacters]
 # no, thanks
 
+[-ValuesAndExpressions::ProhibitMagicNumbers]
+# no, thanks
+
 [-ValuesAndExpressions::ProhibitNoisyQuotes]
 # no, thanks
 

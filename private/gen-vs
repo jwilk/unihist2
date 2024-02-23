@@ -1,0 +1,35 @@
+#!/usr/bin/env perl
+
+# Copyright © 2024 Jakub Wilk <jwilk@jwilk.net>
+# SPDX-License-Identifier: MIT
+
+no lib '.';  # CVE-2016-1238
+
+use strict;
+use warnings;
+use v5.14;
+
+use English qw(-no_match_vars);
+use Unicode::UCD qw();
+use autodie;
+
+require v5.36;  # for Unicode >= 14
+my @invlist = Unicode::UCD::prop_invlist('VS')
+    or die 'VS characters not found';
+while (@invlist) {
+    my ($min, $max) = splice @invlist, 0, 2;
+    if ($max - $min > 9) {
+        my $info = Unicode::UCD::charinfo($min);
+        $_ = $info->{name};
+        printf "    *range(\n        0x%04X,  # %s\n        0x%04X\n    ),\n", $min, $_, $max;
+    } else {
+        $max--;
+        for my $n ($min..$max) {
+            my $info = Unicode::UCD::charinfo($n);
+            $_ = $info->{name};
+            printf "    0x%04X,  # %s\n", $n, $_;
+        }
+    }
+}
+
+# vim:ts=4 sts=4 sw=4 et
