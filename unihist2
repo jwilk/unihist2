@@ -167,7 +167,7 @@ def format_glyph(s):
         return ''
     if cat in {'Zl', 'Zp'}:
         return ''
-    if cat[0] == 'M':
+    if cat in {'Me', 'Mn'}:
         return '\N{DOTTED CIRCLE}' + s
     return s
 
