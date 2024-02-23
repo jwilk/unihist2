@@ -9,6 +9,8 @@ import pty
 import subprocess
 import signal
 
+0_0  # Python >= 3.6 is required
+
 here = os.path.dirname(__file__)
 base = f'{here}/..'
 prog = os.getenv('UNIHIST2_TEST_TARGET') or f'{base}/unihist2'
