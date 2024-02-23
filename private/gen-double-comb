@@ -1,0 +1,32 @@
+#!/usr/bin/env perl
+
+# Copyright © 2024 Jakub Wilk <jwilk@jwilk.net>
+# SPDX-License-Identifier: MIT
+
+no lib '.';  # CVE-2016-1238
+
+use strict;
+use warnings;
+use v5.14;
+
+use English qw(-no_match_vars);
+use Unicode::UCD qw();
+use autodie;
+
+my @invlist;
+for my $class (qw(DA DB)) {
+    my @chunk = Unicode::UCD::prop_invlist("Ccc=$class")
+        or die "Ccc=$class characters not found";
+    push @invlist, @chunk;
+}
+while (@invlist) {
+    my ($min, $max) = splice @invlist, 0, 2;
+    $max--;
+    for my $n ($min..$max) {
+        my $info = Unicode::UCD::charinfo($n);
+        $_ = $info->{name};
+        printf "    '\\u%04X',  # %s\n", $n, $_;
+    }
+}
+
+# vim:ts=4 sts=4 sw=4 et
