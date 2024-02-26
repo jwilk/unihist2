@@ -51,7 +51,7 @@ jobs:
         python3 -m pip install --verbose regex
     - name: run tests
       run: |
-        prove -v
+        make test verbose=1
   nonpython:
     strategy:
       matrix:
