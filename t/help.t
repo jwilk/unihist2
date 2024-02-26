@@ -18,6 +18,7 @@ xout=$(
     sed -e 's/^   //'
 )
 out=$("$prog" --help)
+out=${out/'FILE [FILE ...]'/FILE ...}  # Python < 3.9 compat: https://bugs.python.org/issue38438
 say() { printf "%s\n" "$@"; }
 diff=$(diff -u <(say "$xout") <(say "$out")) || true
 if [ -z "$diff" ]
