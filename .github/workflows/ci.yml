@@ -52,6 +52,22 @@ jobs:
     - name: run tests
       run: |
         make test verbose=1
+    - name: set up PATH
+      run: |
+        PATH="$PATH:$HOME/.local/bin"
+        echo "$PATH" >> $GITHUB_PATH
+    - name: install
+      run: |
+        make install PREFIX=~/.local
+    - name: check whether the executable was installed correctly
+      run: |
+        cd /
+        command -v unihist2
+    - name: run post-install tests
+      run: |
+        rm unihist2
+        make test-installed verbose=1
+        git restore unihist2
   nonpython:
     strategy:
       matrix:
