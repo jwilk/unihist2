@@ -4,13 +4,14 @@ Overview
 .. code:: console
 
    $ unihist2 --help
-   usage: unihist2 [-h] [-G] [FILE ...]
+   usage: unihist2 [-h] [--version] [-G] [FILE ...]
 
    positional arguments:
      FILE        file to analyze (default: stdin)
 
    options:
      -h, --help  show this help message and exit
+     --version   show version information and exit
      -G          use Extended Grapheme Clusters
 
    $ unihist2 /path/to/unihist2/LICENSE
