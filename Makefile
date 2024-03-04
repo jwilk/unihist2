@@ -7,7 +7,6 @@ PREFIX = /usr/local
 DESTDIR =
 
 bindir = $(PREFIX)/bin
-mandir = $(PREFIX)/share/man
 
 .PHONY: all
 all: ;
