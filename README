@@ -6,6 +6,8 @@ Overview
    $ unihist2 --help
    usage: unihist2 [-h] [--version] [-G] [FILE ...]
 
+   generate Unicode characters histogram
+
    positional arguments:
      FILE        file to analyze (default: stdin)
 
