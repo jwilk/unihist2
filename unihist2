@@ -281,6 +281,7 @@ def main():
             read_file(data, sys.stdin)
         else:
             try:
+                # pylint: disable=unspecified-encoding
                 file = open(path, 'rt', **open_kw)
             except OSError as exc:
                 if options.traceback:
