@@ -56,7 +56,7 @@ class VersionAction(argparse.Action):
         except ImportError:
             pass
         else:
-            print(f'+ regex {regex.__version__}')
+            print(f'+ regex {regex.__version__}')  # pylint: disable=no-member
         parser.exit()
 
 chunk_size = 64 * 1024
