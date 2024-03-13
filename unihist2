@@ -15,7 +15,9 @@ try:
 except ImportError:
     import unicodedata as udata
 
-async def _(): f'{await "# Python >= 3.7 is required #"}'
+if bool():
+    # pylint: disable=multiple-statements
+    async def _(): return f'{await "# Python >= 3.7 is required #"}'
 
 __version__ = '0'  # not released yet
 
