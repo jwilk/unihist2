@@ -246,6 +246,7 @@ def main():
     ap = argparse.ArgumentParser()
     if sys.version_info < (3, 10):
         # https://bugs.python.org/issue9694
+        # pylint: disable=protected-access
         ap._optionals.title = 'options'
     ap.add_argument('--version', action=VersionAction)
     ap.add_argument('-G', dest='egc', action='store_true',
