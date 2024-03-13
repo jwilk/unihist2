@@ -6,6 +6,7 @@ disable =
     invalid-name,
     missing-function-docstring,
     too-many-return-statements,
+    use-dict-literal,
 
 [REPORTS]
 reports = no
