@@ -37,18 +37,6 @@ jobs:
       uses: actions/setup-python@v5
       with:
         python-version: ${{matrix.python-version}}
-    - name: run pydiatra
-      run: |
-        python3 -m pip install pydiatra
-        python3 -m pydiatra -v .
-    - name: run pyflakes
-      run: |
-        python3 -m pip install pyflakes
-        python3 -m pyflakes .
-    - name: check README syntax
-      run: |
-        python3 -m pip install restructuredtext-lint pygments
-        rst-lint --level=info --encoding=UTF-8 README
     - name: pip install wheel
       run: |
         python3 -m pip install wheel
@@ -78,6 +66,18 @@ jobs:
         rm unihist2
         make test-installed verbose=1
         git restore unihist2
+    - name: run pydiatra
+      run: |
+        python3 -m pip install pydiatra
+        python3 -m pydiatra -v .
+    - name: run pyflakes
+      run: |
+        python3 -m pip install pyflakes
+        python3 -m pyflakes .
+    - name: check README syntax
+      run: |
+        python3 -m pip install restructuredtext-lint pygments
+        rst-lint --level=info --encoding=UTF-8 README
   nonpython:
     strategy:
       matrix:
