@@ -42,6 +42,12 @@ class VersionAction(argparse.Action):
         if udata.__name__ == 'unicodedata2':
             print('+ unicodedata2')
         print(f'  + Unicode {unidata_ver}')
+        try:
+            import regex
+        except ImportError:
+            pass
+        else:
+            print(f'+ regex {regex.__version__}')
         parser.exit()
 
 chunk_size = 64 * 1024
