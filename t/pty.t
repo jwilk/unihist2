@@ -6,8 +6,8 @@
 
 import os
 import pty
-import subprocess
 import signal
+import subprocess
 
 int(0_0)  # Python >= 3.6 is required
 
