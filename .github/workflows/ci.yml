@@ -9,6 +9,7 @@ jobs:
       matrix:
         include:
         - python-version: '3.7'
+          regex: regex==0.1.20120613
           os: ubuntu-20.04
         - python-version: '3.8'
           os: ubuntu-20.04
@@ -42,7 +43,7 @@ jobs:
         python3 -m pip install wheel
     - name: pip install regex
       run: |
-        python3 -m pip install --verbose regex
+        python3 -m pip install --verbose ${{matrix.regex || 'regex'}}
     - name: pip install unicodedata2
       if: ${{matrix.unicodedata2}}
       run: |
