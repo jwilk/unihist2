@@ -177,7 +177,8 @@ def get_char_name(ch):
                 assert False, f'{name} != U+{pt:04X}'
             return name
     # use code point label as fallback
-    # (see The Unicode Standard version 15.0, §4.8)
+    # https://www.unicode.org/versions/Unicode16.0.0/core-spec/chapter-4/#G135248
+    # (§4.8.2 Code Point Labels)
     label_prefix = dict(
         Cc='control',
         Cn='reserved',
