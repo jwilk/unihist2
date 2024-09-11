@@ -36,10 +36,10 @@ Prerequisites
 
 * regex_ (for the -G option)
 
+* unicodedata2_ (optional)
+
 .. _regex:
    https://pypi.org/project/regex/
-
-* unicodedata2_ (optional)
 
 .. _unicodedata2:
    https://pypi.org/project/unicodedata2/
