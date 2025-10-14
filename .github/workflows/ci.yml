@@ -89,6 +89,7 @@ jobs:
       matrix:
         os:
         - debian:12  # bookworm (Unicode 14)
+        - debian:13  # trixie (Unicode 15)
         - debian:unstable # (Unicode >= 15)
     runs-on: ubuntu-latest
     container: ${{matrix.os}}
