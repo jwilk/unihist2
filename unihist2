@@ -72,11 +72,19 @@ def read_file_basic(data, file):
         for ch in chunk:
             data[ch] += 1
 
+try:
+    _iter_graphemes = udata.iter_graphemes
+except AttributeError:
+    # Python < 3.15
+    def find_graphemes(s):
+        import regex  # pylint: disable=import-outside-toplevel,import-error
+        return regex.findall(r'\X', s)
+else:
+    # Python >= 3.15
+    def find_graphemes(s):
+        return [str(s) for s in _iter_graphemes(s)]
+
 def read_file_egc(data, file):
-    # Python stdlib doesn't support grapheme clustering yet:
-    # https://github.com/python/cpython/issues/74902
-    # Use third-party library in the mean time.
-    import regex  # pylint: disable=import-outside-toplevel
     tail = ''
     if file.isatty():
         read = file.readline
@@ -84,7 +92,7 @@ def read_file_egc(data, file):
         read = file.read
     while True:
         chunk = read(chunk_size)
-        chars = regex.findall(r'\X', tail + chunk)
+        chars = find_graphemes(tail + chunk)
         tail = chars.pop() if chars else ''
         for clt in chars:
             data[clt] += 1
