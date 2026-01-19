@@ -34,7 +34,7 @@ Prerequisites
 
 * Python ≥ 3.7
 
-* regex_ (for the -G option)
+* regex_ or Python ≥ 3.15 (for the -G option)
 
 * unicodedata2_ (optional)
 
