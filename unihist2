@@ -259,6 +259,7 @@ def format_glyph(s):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
+    ap.color = False
     if sys.version_info < (3, 10):
         # https://bugs.python.org/issue9694
         # pylint: disable=protected-access
