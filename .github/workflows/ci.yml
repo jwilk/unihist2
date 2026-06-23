@@ -33,7 +33,7 @@ jobs:
           os: ubuntu-24.04
         - python-version: '3.14'
           regex: regex
-          os: ubuntu-24.04
+          os: ubuntu-26.04
         - python-version: '3.15-dev'
           os: ubuntu-24.04
     steps:
